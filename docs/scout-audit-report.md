@@ -179,8 +179,8 @@ The 1.2.0 fix maintains `NonOwnerContributionTotal` in `add_funds`, so `start_ca
 
 | Finding | Count | Assessment |
 |---|---|---|
-| Use latest Soroban version (23.5.2, latest 26.1.0) | 2 | Upgrade planned with next contract deployment. SDK 23.5.x is stable on testnet. |
-| Emit events when storage is modified (profile + events contracts) | ~50 | Scout flags the lib.rs dispatcher functions, which are thin wrappers. The actual event emissions live in the implementation modules (credits.rs, reputation.rs, admin.rs) and emit for every state-changing operation. All 50 ENHANCEMENT warnings are false positives caused by Scout not tracing through function calls. Verified by code inspection. |
+| Use latest Soroban version (was 23.5.2, latest 27.0.0) | 2 | **Resolved.** Bumped `soroban-sdk` to `27.0.0` (workspace `Cargo.toml`), Rust toolchain to `1.91.0` (`rust-toolchain.toml`), and build target to `wasm32v1-none`. All 197 events + 66 profile tests pass. |
+| Emit events when storage is modified (profile + events contracts) | ~44 | **No action.** Scout flags `lib.rs` dispatcher functions, which are thin wrappers. The underlying implementation modules (`event_ops.rs`, `grant.rs`, `crowdfunding.rs`, `admin.rs`, `reputation.rs`, etc.) emit a typed Soroban event for every state-changing operation. Scout cannot trace through function calls. All flags verified by code inspection. The one genuinely missing event (`ManagerChanged`) is tracked in issue #3 and is not part of this scanner batch. |
 
 ---
 
@@ -254,7 +254,8 @@ For audit panel reference -- these Scout warnings require no code change:
 | M-7 | `storage.rs` | 343 | Called only from auth-gated `apply()` |
 | M-8 | `event_ops.rs` | — | Vec validated in function body |
 | M-9 | `storage.rs` | 343,418,498 | In-memory Vec accumulation in read-only helpers; not a storage write |
-| ENHANCEMENT | all | — | All ~50 ENHANCEMENT warnings flag dispatcher wrappers in lib.rs; underlying implementations emit events. Scout cannot trace through function calls. |
+| ENHANCEMENT (soroban_version) | `Cargo.toml` | — | Resolved: bumped to soroban-sdk 27.0.0 / Rust 1.91.0 / wasm32v1-none target. |
+| ENHANCEMENT (storage_change_events, ~44 flags) | `lib.rs` dispatcher functions | — | No action: dispatcher wrappers delegate to impl modules that already emit events. Scout cannot trace through function calls. `ManagerChanged` is the only genuine gap; tracked in issue #3. |
 
 **Fixed findings (no longer in scan output):**
 

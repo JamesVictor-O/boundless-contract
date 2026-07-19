@@ -27,7 +27,7 @@ Source: https://github.com/stellar/stellar-dev-skill
 
 ```bash
 # Build
-cd contracts/events && cargo build --target wasm32-unknown-unknown --release
+cd contracts/events && cargo build --target wasm32v1-none --release
 
 # Test (host target)
 cargo test -p boundless-events
@@ -45,7 +45,7 @@ Mainnet admin operations live behind the multi-sig defined in `docs/admin-custod
 
 ```bash
 cargo test -p boundless-events
-cargo build --release --target wasm32-unknown-unknown
+cargo build --release --target wasm32v1-none
 ```
 
 Update `BACKLOG.md` if your PR closes one of the entries there.
