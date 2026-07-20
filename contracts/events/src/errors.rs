@@ -66,4 +66,7 @@ pub enum Error {
     Paused = 70,
 
     ProfileCallFailed = 80,
+
+    // Enum is at the 50-case XDR cap; consolidate before adding another.
+    PrizeAlreadyClaimed = 91,
 }
