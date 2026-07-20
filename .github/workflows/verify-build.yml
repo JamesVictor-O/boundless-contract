@@ -7,6 +7,10 @@ on:
       - testnet
     paths:
       - 'contracts/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - '.github/actions/setup-rust-stellar/**'
       - '.github/workflows/verify-build.yml'
   # Use pull_request (not pull_request_target): the check must run the workflow
   # from the PR head so branch-filter changes take effect on the PR itself, and
@@ -19,6 +23,10 @@ on:
       - testnet
     paths:
       - 'contracts/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - '.github/actions/setup-rust-stellar/**'
       - '.github/workflows/verify-build.yml'
       - '.github/workflows/rustfmt.yml'
   workflow_dispatch:
